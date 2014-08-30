@@ -12,7 +12,15 @@
 		}
 		
 		
-		function get_import_url($item_in_page=null, $page_no=null, $city_id=null, $tag_ids=null){
+		/**
+		 * Geneates api url using differnt conditional
+		 * helper function to be used by get_deal()
+		 * @item_in_page: number of item to be shown
+		 * @page_no: current page number
+		 * @city_id: city based deal 
+		 * @tag_ids: Tag based deal 
+		 */	
+		private function get_import_url($item_in_page=null, $page_no=null, $city_id=null, $tag_ids=null){
 			$params = array(
 				'apiKey' 		=> $this->api_key,
 				'publisherId' 	=> $this->publisher_id,
@@ -27,6 +35,13 @@
 		}
 		
 		
+		/**
+		 * Import deals depends on query arguments
+		 * @item_in_page: number of item to be shown
+		 * @page_no: current page number
+		 * @city_id: city based deal 
+		 * @tag_ids: Tag based deal 
+		 */	
 		function get_deals($item_in_page=null, $page_no=null, $city_id=null, $tag_ids=null){
 			$deal_url = $this->get_import_url($item_in_page=null, $page_no=null, $city_id=null, $tag_ids=null);
 			

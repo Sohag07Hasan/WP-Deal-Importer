@@ -4,9 +4,15 @@
 	class DealController{
 		
 		public $deal_importer, $deal_parser, $db;
-						
+		
+		
+		/**
+		 * Initialize functionalities of the plugin
+		 * */				
 		function init() {
-			add_action( 'init', array($this, 'initialize') );
+			//add_action( 'init', array($this, 'initialize') );
+			
+			add_action('admin_menu', array($this, 'admin_menu_for_deal_importer')); //add amdin menu
 		}
 		
 		
@@ -28,6 +34,11 @@
 		}
 		
 		
+		/*
+		 * Create an object of DealImporter Class
+		 * Saves the object in $deal_importer variable
+		 * 
+		 * */
 		function get_deal_importer(){
 			if($this->deal_importer instanceof DealImporter){
 				return $this->deal_importer;
@@ -42,6 +53,12 @@
 		}
 		
 		
+		/**
+		 * Cretes an object of DealParser class
+		 * saves the object in $deal_parser variable
+		 * @$deal: if present it will parse the deal 
+		 * 
+		 * */
 		function get_deal_parser($deal = null){
 			if($this->deal_parser instanceof DealParser){
 				if($deal){
@@ -60,6 +77,10 @@
 		}
 		
 		
+		/**
+		 * Creates an object of DealImportDB class
+		 * creates every interface with database
+		 * */
 		function get_db_object(){
 			if($this->db instanceof DealImportDb){
 				return $this->db;
@@ -72,11 +93,21 @@
 		}
 		
 		
-		function get_path($path = ''){
+		/** 
+		 * Generate absolute path from relative path 
+		 * @path: ex '/class/db.php'
+		 */
+		 function get_path($path = ''){
 			return WPAUTODEAL_DIR . $path;	
 		}
 		
 		
+		/**
+		 * dynamically load script cheking different condition
+		 * @path: absolute path like '/opt/lampp..../sth.php'
+		 * @type: type that needs to be checked like 'class', 'function' etc
+		 * @name: name of the type like DealImportDB, 'wp_redirect' etc
+		 */
 		function load_script($path = '', $type=null, $name=''){
 			switch($type){
 				case 'class':
@@ -97,5 +128,19 @@
 		}
 		
 		
+		/**
+		 * Initialize adim interface
+		 */
+		 function admin_menu_for_deal_importer(){
+		 	add_menu_page('wordpress deal importer', 'F deals', 'manage_options', 'f_deals', array($this, 'f_deal_menu_page'));
+		 }
+		
+		
+		/**
+		 * menu page to control deal activities 
+		 */
+		 function f_deal_menu_page(){
+		 	
+		 }
 	}
 ?>

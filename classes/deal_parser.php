@@ -17,6 +17,9 @@ class DealParser{
 	}
 	
 	
+	/**
+	 * parses a deal
+	 */
 	function parse(){
 		
 		//solid info broken into deal
@@ -32,7 +35,9 @@ class DealParser{
 	}
 	
 	
-	
+	/**
+	 * Saves a parsed deal
+	 */
 	function save(){
 		global $deal_controller;
 		$deal_controller->load_script($deal_controller->get_path('/classes/db.php'), 'class', 'DealImportDb');
