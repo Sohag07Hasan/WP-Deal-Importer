@@ -6,13 +6,15 @@
 		public $deal_importer, $deal_parser, $db;
 						
 		function init() {
-			//add_action( 'init', array($this, 'initialize') );
+			add_action( 'init', array($this, 'initialize') );
 		}
 		
 		
 		function initialize(){
 			$this->get_deal_importer();
 			$deals = $this->deal_importer->get_deals(100, 1, 41, 2);	
+			
+			//var_dump($deals); exit;
 						
 			if($deals){
 				foreach	($deals->deals as $deal){
@@ -22,6 +24,7 @@
 				}	
 			}
 			
+			exit;						
 		}
 		
 		
