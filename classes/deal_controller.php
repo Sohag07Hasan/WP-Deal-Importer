@@ -10,16 +10,15 @@
 		 * Initialize functionalities of the plugin
 		 * */				
 		function init() {
-			//add_action( 'init', array($this, 'initialize') );
-			
-			add_action('admin_menu', array($this, 'admin_menu_for_deal_importer')); //add amdin menu
+			//add_action( 'init', array($this, 'initialize') );			
+			add_action('admin_menu', array($this, 'admin_menu_for_deal_importer')); //add amdin menu			
 		}
 		
 		
 		function initialize(){
 			$this->get_deal_importer();
 			$deals = $this->deal_importer->get_deals(100, 1, 41, 2);	
-			
+						
 			//var_dump($deals); exit;
 						
 			if($deals){
@@ -133,6 +132,7 @@
 		 */
 		 function admin_menu_for_deal_importer(){
 		 	add_menu_page('wordpress deal importer', 'F deals', 'manage_options', 'f_deals', array($this, 'f_deal_menu_page'));
+		 	add_submenu_page('f_deals', 'catetory importer', 'Import Category', 'manage_options', 'category_importer', array($this, 'submenu_for_xls_importing')); //submenu for parsing 
 		 }
 		
 		
@@ -141,6 +141,34 @@
 		 */
 		 function f_deal_menu_page(){
 		 	
+		 }
+		 
+		 function submenu_for_xls_importing(){
+		 	return $this->submenu_for_csv_importing();
+		 	//include $this->get_path('/includes/submenu_for_xls_importing.php');
+		 }
+		 
+		 function submenu_for_csv_importing(){
+		 	include $this->get_path('/includes/submenu_for_csv_importing.php');
+		 }
+		 
+		 function get_demo_xls_file(){
+		 	return WPAUTODEAL_URL . 'sample/Afilliate-Tag-IDs.xlsx';
+		 }
+		 
+		 function get_excel_parser($file){
+		 	return $this->get_csv_parser($file);
+		 	
+			/*
+		 	$this->load_script($this->get_path('/classes/class.parser.php'), 'class', 'Spreadsheet_Excel_Reader');
+			return new Spreadsheet_Excel_Reader($file, false);
+			 * 
+			 */
+		 }
+		 
+		 function get_csv_parser($file = null){
+		 	$this->load_script($this->get_path('/classes/parsecsv.lib.php'), 'class', 'parseCSV');
+			return new parseCSV();
 		 }
 	}
 ?>
